@@ -1,5 +1,5 @@
 ---
-title: A case study to determine the feasibility of using the CNOSSOS model for estimating traffic noise in Bankstown, Sydney
+title: A case study to determine the feasibility of using the CNOSSOS model for estimating traffic noise in Australia
 
 author:  
 - name: Christy Geromboux
@@ -39,13 +39,13 @@ We demonstrate the feasibility of using the CNOSSOS (Common NOise aSSessment Met
 # Introduction
 Traffic noise is detrimentally linked to several health outcomes (@Babisch2006, @VanKempen2012a, @Bjork2006, @Sorensen2012). Consequently, traffic noise modelling is increasingly important for understanding exposure and the impact on human health. 
 
-The aim of this report is to examine the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In this paper, Morley *et al.* compare the results achieved using 6 different levels of detailed data, an include code for the lowest and higest models. Our report describes our attempts at getting the low resolution model to run using data for Bankstown, NSW.
+The aim of this report is to examine the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In this paper, these authors compare the results achieved using 6 different levels of detailed data, and include code for the least and most detailed models. Our report describes our attempts at getting the low resolution model to run using data for Bankstown, NSW.
 
 We used the code published with this paper, along with data for Bankstown, NSW to demonstrate the CNOSSOS model can feasibly be used in Australia. Included alongside this report, we have created a PostGIS server with access to the source data and scripts which run the analysis. Because some of the datasets are restricted, these are not published in the public domain. Instead they have been made available through the Centre for Air pollution, energy and health Research (CAR) Data Analysis Technology (DAT) platform (http://cardat.github.io/). Access to this can be requested through the CAR data team (car.data\@sydney.edu.au).
 
-We highlight a few issues and potential ways in which results may be improved upon. Primarily there would need to be careful consideration of data inputs, including overcoming any differences in data across the states and territories. 
+We highlight a few issues and potential ways in which results may be improved. Primarily there would need to be careful consideration of data inputs, including overcoming any differences in data standards across the states and territories. 
 
-Additionally, there are several other papers that could feasibly be used to enhance data inputs into the CNOSSOS code. For example, @Morley2016 describes ways in which traffic flows on minor roads can be modelled which could improve the CNOSSOS model which uses constant hourly traffic rates for all minor roads.
+Additionally, there are several other papers that could feasibly be used to enhance data inputs into the CNOSSOS code. For example, @Morley2016 describe ways in which traffic flows on minor roads can be modelled. This could improve the the CNOSSOS model, which assumes constant hourly rate across all minor roads.
 
 # Methods
 
@@ -63,7 +63,7 @@ As this project was a feasibility study we implemented the lowest resolution mod
 We implemented this on a PostGIS database (version 2.3 running PostgreSQL 9.6.15 on x86_64-pc-linux-gnu (Ubuntu 9.6.15-1.pgdg16.04+1), compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609, 64-bit) and did the analysis with SQL functions and scripts.
 
 ## Data sources 
-The data sources used for the low resolution code in this study are outlined in the table below with comparison to those used by Morley.
+The data sources used for the low resolution code in this study are outlined in table 1 along with those used by Morley.
 
 +---------------------+-------------------------------+-------------------------------+
 | Input               | Bankstown Data Source         | Morley 2015 Data Source       |
@@ -169,7 +169,7 @@ A full list of the CORINE Land Cover nomenclature conversion to Land Cover Class
 # Results
 
 ## Creation of PostGIS server and data sources
-As a deliverable we have set up a PostGIS (version ????) database with several schemas for the source data, and a public schema for the CNOSSOS tables and code. This database incorporates the Bankstown data, and along with the SQL scripts and readme in the scripts_and_analysis folder in this repository can be used to run the low resolution model. 
+As a deliverable we have set up a PostGIS (version 9.6.15) database with several schemas for the source data, and a public schema for the CNOSSOS tables and code. This database incorporates the Bankstown data, and along with the SQL scripts and readme in the scripts_and_analysis folder in this repository can be used to run the low resolution model. 
 
 ## Data visualisation from QGIS
 The data from each of the layers can be visualised through QGIS. Below are some examples of data used in this report.
@@ -203,16 +203,29 @@ If this study were to be further extended, we would recommend a different IT fra
 
 This study has not tested for scale and only uses 10 receptor points which are randomly generated, expanding the results to larger areas could result in poor performance. 
 
+Additionally the model results could be improved through better data inputs
+
+## Validation of Results
+There were no attempts made to validate the results from this experiment, except to check that the results were in the expected range for traffic noise measurements. 
+
+There was data provided to the Centre for Air pollution, energy and health Research (CAR) for noise readings from the top of buildings in various suburbs of Sydney (Penthurst, Oatley, Mt Annan, Bradbury, Woy Woy, Wyoming, Glebe, Ashbury, St Ives, Kellyville, Castle Hill). These data however were not appropriate for validating the results achieved in the CNOSSOS model, as the protocols under which they were collected were different and they did not cover the same geographic regions.
+
+If this project were to be continued it would be important to find or collect data to validate the results from the model.
 
 # Conclusion
-
 It is possible to use the CNOSSOS noise modelling framework in Australia, at least in major cities for which we have data.
 
-If this study were to be expanded to cover more of Australia, it would be worth taking the time to consider the differences in data across states and territories and to plan how they can be mapped effectively.
-
-Further work would need to be done to establish the validity of the results, and the feasibilty of substantially increasing the scale of data.
-
+There is still significant work that would need to be done to:
+ * Validate the model against readings from a similar source
+ * Add realist data for wind and receptors, rather than the randomly generated numbers and points used in this model (i.e. use real wind data, and generate receptor points 1 metre from the facade of buildings next to the nearest road)
+ * Map differences in data across states and territories to ensure consistent and comparable results
+ * Test the performance of the model with large scale data
+ 
 # Acknowledgments
+The work by Ivan Hanigan and Christy Geromboux was funded by the Clean Air and Urban Landscapes (CAUL) hub of the Australian Government’s National and Environmental Science Programme (NESP).Financial support was also provided by the Centre for Air pollution, energy and health Research (CAR, http://www.car-cre.org.au) an Australian National Health and Medical Research Council (NHMRC) Centre of Research Excellence; and the Air Pollution, Traffic Exposures and Mortality and Morbidity in Older Australians (APTEMA) Study.
+
+This research is undertaken with the assistance of resources from the Collaborative Environment for Scholarly Analysis and Synthesis (CoESRA; https :// coesr a.tern.org.au).
+
 With thanks to our colleages Bridget Beesley, Steve van der Hoorn and Jane Heyworth in University of Western Australia, who provided support and advice on getting the orginal code to run. 
 
 # References

@@ -1,4 +1,4 @@
--- CHRISTY'S MODIFICATIONS TO MORELY'S CODE
+﻿-- CHRISTY'S MODIFICATIONS TO MORELY'S CODE
 -- THIS FILE LOADS DATA INTO THE TABLES
 --################################################################################
 --## Copyright 2014-15 David Morley
@@ -190,6 +190,7 @@ where code_06 in (
 -- monthly averages (max-ave + min-ave)/2 	26.9	23.65	22.7	19.45	15.6	12.9	12.5	12.8	16.15	18.85	21.6	23.5	18.9
 -- yearly avereges sum(monthly-ave)/12		18.88461538
 
+-- 4283 is the geodetic datum value for the Australian standard AGD84 https://www.icsm.gov.au/datum/australian-geodetic-datum-196684-agd
 INSERT INTO mettemp (Geom, Air_temp,src_id) 
 values (ST_SetSRID(ST_MakePoint(150.9864,-33.9181),4283),18.88461538,066137);
 
@@ -207,6 +208,7 @@ values (ST_SetSRID(ST_MakePoint(150.9864,-33.9181),4283),18.88461538,066137);
 -- use BOM weather station id (94765) and locality (-33.92 S 151.03 E) for Bankstown
 -- use random wind values 
 
+-- 4283 is the geodetic datum value for the Australian standard AGD84 https://www.icsm.gov.au/datum/australian-geodetic-datum-196684-agd
 INSERT INTO metwind (Geom, NE, SE, SW, NW, src_id) 
 values (ST_SetSRID(ST_MakePoint(150.9864,-33.9181),4283),.25,.30,.15,.40,066137);
 

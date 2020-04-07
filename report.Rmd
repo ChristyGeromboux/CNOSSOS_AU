@@ -37,7 +37,9 @@ link-citations: yes
 We demonstrate the feasibility of using the CNOSSOS (Common NOise aSSessment MethOdS) noise modelling framework in Australia. To do this, we implemented the code prepared by @Morley2015 using data sources for Bankstown, NSW. We discuss the limitations of the available data in the Australian context and identify enhancements which may be useful if the model were to be applied across Australia. 
 
 # Introduction
-Traffic noise is detrimentally linked to several health outcomes (@Babisch2006, @VanKempen2012a, @Bjork2006, @Sorensen2012). Consequently, traffic noise modelling is increasingly important for understanding exposure and the impact on human health. This report examines the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In this paper, Morley *et al.* compare the results achieved using 6 different levels of detailed data, an include code for the lowest and higest models.
+Traffic noise is detrimentally linked to several health outcomes (@Babisch2006, @VanKempen2012a, @Bjork2006, @Sorensen2012). Consequently, traffic noise modelling is increasingly important for understanding exposure and the impact on human health. 
+
+The aim of this report is to examine the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In this paper, Morley *et al.* compare the results achieved using 6 different levels of detailed data, an include code for the lowest and higest models. Our report describes our attempts at getting the low resolution model to run using data for Bankstown, NSW.
 
 We used the code published with this paper, along with data for Bankstown, NSW to demonstrate the CNOSSOS model can feasibly be used in Australia. Included alongside this report, we have created a PostGIS server with access to the source data and scripts which run the analysis. Because some of the datasets are restricted, these are not published in the public domain. Instead they have been made available through the Centre for Air pollution, energy and health Research (CAR) Data Analysis Technology (DAT) platform (http://cardat.github.io/). Access to this can be requested through the CAR data team (car.data\@sydney.edu.au).
 
@@ -58,7 +60,7 @@ As this project was a feasibility study we implemented the lowest resolution mod
  * Reorganised SQL scripts so that they were modularised in a logical order catering to code dependencies 
  
 ## Software
-We implemented this on a PostGIS database (version ????) and did the analysis with SQL functions and scripts.
+We implemented this on a PostGIS database (version 2.3 running PostgreSQL 9.6.15 on x86_64-pc-linux-gnu (Ubuntu 9.6.15-1.pgdg16.04+1), compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609, 64-bit) and did the analysis with SQL functions and scripts.
 
 ## Data sources 
 The data sources used for the low resolution code in this study are outlined in the table below with comparison to those used by Morley.
@@ -68,29 +70,30 @@ The data sources used for the low resolution code in this study are outlined in 
 +=====================+===============================+===============================+
 | Landcover           | NSW LEP Land Zoning 2010      | CORINE 2006 v16 (~100 m       |
 |                     | @OEH2017                      | precision)                    | 
-|                     |                               | @EuropeanEnvironmentAgency2015b|
+|                     |                               | @EuropeanEnvironmentAgency2015b |
 +---------------------+-------------------------------+-------------------------------+
-| Building heights    |                               |                               |
-|                     |                               |                               |
+| Building heights    | Geoscape GeoScape vector data | 1) 50 m grid generalised Landmap LiDAR |
+|                     | of building @PSMA2019         | 2) Constant value according to CORINE urban extent |
 +---------------------+-------------------------------+-------------------------------+
-| Road network        | StreetPro Navigation 2012     |                               |
+| Road network        | StreetPro Navigation 2012     | Ordnance Survey, 2015. Meridian 2. |
+|                     | @PitneyBowes2012              | (accessed July 2015)          |
++---------------------+-------------------------------+-------------------------------+
+| Traffic flow        | As for @Morley2015            | ESCAPE/UK Department of Transport |
+|                     |                               | modelled traffic flow         |
+|                     |                               | @Eeftens2012                  |
++---------------------+-------------------------------+-------------------------------+
+| Traffic composition | As for @Morley2015            | 10% heavy 90% light vehicles as according to CRTN |
+|                     |                               | @DepartmentofTransport2013    |
++---------------------+-------------------------------+-------------------------------+
+| Traffic speed       | StreetPro Navigation 2012     | Local legal maximum limit     |
 |                     | @PitneyBowes2012              |                               |
 +---------------------+-------------------------------+-------------------------------+
-| Traffic flow        |                               |                               |
+| Topography          | Flat plane                    | Flat plane                    |
 |                     |                               |                               |
 +---------------------+-------------------------------+-------------------------------+
-| Traffic composition |                               |                               |
-|                     |                               |                               |
-+---------------------+-------------------------------+-------------------------------+
-| Traffic speed       | StreetPro Navigation 2012     |                               |
-|                     | @PitneyBowes2012              |                               |
-+---------------------+-------------------------------+-------------------------------+
-| Topography          |                               |                               |
-|                     |                               |                               |
-+---------------------+-------------------------------+-------------------------------+
-| Meteorological data | **wind data** fictional data  |                               |
-|                     | **temperature data** downloaded|                              |
-|                     | from BoM                      |                               |
+| Meteorological data | **wind data** test values made up | Annual average of 2003-2010  |
+|                     | **temperature data** downloaded| UK Met Office air temperature |
+|                     | from BoM                      |  and wind direction @MetOffice2015 |
 +---------------------+-------------------------------+-------------------------------+
 
 ## Data mapping
@@ -194,9 +197,12 @@ In implementing this model we encountered a number of issues with the orginal co
  * Documentation of code was provided, but very minimal and often difficult to understand without detailed knowledge of the accompanying paper.
  * There were a couple of deprecated functions which needed to be updated to get the code to run in the more recent version of PostGIS. 
 
-The choice of platform and code language (PostGIS and SQL) were difficult choices for re-implementing this model. The lack of code breakpoints and Integrated Development Environment made debugging issues with code difficult. Were the study to be extended further, it might be worth considering an alternative analysis environment (e.g. R or Python). 
+If this study were to be further extended, we would recommend a different IT framework for the project. 
+ * Best practice is to have functions defined in individual files rather than in a single SQL file.
+ * Using an R project to connect and run the scripts would enable more effective scripting, and easier debugging.
 
-This study has not tested for scale and only uses 10 receptor points which are randomly generated, expanding the results to larger areas could result in poor performance.  
+This study has not tested for scale and only uses 10 receptor points which are randomly generated, expanding the results to larger areas could result in poor performance. 
+
 
 # Conclusion
 

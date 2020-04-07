@@ -33,7 +33,7 @@
 
 -- CHANGES I HAVE MADE INCLUDE
 -- function ST_Line_Interpolate_Point updated to ST_LineInterpolatePoint
--- function ST_LineLocatePoint updated to ST_LineLocatePoint 
+-- function ST_Line_Locate_Point updated to ST_LineLocatePoint 
 
 
 --get sound power level at source before attenuation

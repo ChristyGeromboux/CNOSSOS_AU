@@ -1,4 +1,4 @@
-﻿-- CHRISTY'S MODIFICATIONS TO MORELY'S CODE
+-- CHRISTY'S MODIFICATIONS TO MORELY'S CODE
 -- THIS FILE LOADS DATA INTO THE TABLES
 --################################################################################
 --## Copyright 2014-15 David Morley
@@ -89,7 +89,7 @@ as $$
 		random_int = (select floor(random() * n_rows + 1)::int);
 		geometry_value = (select geom from public.buildings where id=random_int);
 		--insert into recpt (geom) values (ST_GeneratePoints(geometry_value,1));
-		insert into recpt (geom) values ((ST_Dump(ST_GeneratePoints(geometry_value,1))).geom);
+		insert into recpt (gid, geom) values (i, (ST_Dump(ST_GeneratePoints(geometry_value,1))).geom);
 		--random_int = (select floor(random() * 290452 + 1)::int);	
 		--geometry_value = (select geom from buildings where id=253936);
 		--insert into recpt (geom) values (ST_GeneratePoints((select geom from buildings where id=253936),1));

@@ -1,0 +1,35 @@
+﻿Variable,Description
+gid,Unique identifier for the receptor
+geom,The point geometry of the receptor
+description,An optional description of the receptor
+laeq1h_0,The average noise in dB measured using LAeq at 00:00
+laeq1h_1,The average noise in dB measured using LAeq at 01:00
+laeq1h_2,The average noise in dB measured using LAeq at 02:00
+laeq1h_3,The average noise in dB measured using LAeq at 03:00
+laeq1h_4,The average noise in dB measured using LAeq at 04:00
+laeq1h_5,The average noise in dB measured using LAeq at 05:00
+laeq1h_6,The average noise in dB measured using LAeq at 06:00
+laeq1h_7,The average noise in dB measured using LAeq at 07:00
+laeq1h_8,The average noise in dB measured using LAeq at 08:00
+laeq1h_9,The average noise in dB measured using LAeq at 09:00
+laeq1h_10,The average noise in dB measured using LAeq at 10:00
+laeq1h_11,The average noise in dB measured using LAeq at 11:00
+laeq1h_12,The average noise in dB measured using LAeq at 12:00
+laeq1h_13,The average noise in dB measured using LAeq at 13:00
+laeq1h_14,The average noise in dB measured using LAeq at 14:00
+laeq1h_15,The average noise in dB measured using LAeq at 15:00
+laeq1h_16,The average noise in dB measured using LAeq at 16:00
+laeq1h_17,The average noise in dB measured using LAeq at 17:00
+laeq1h_18,The average noise in dB measured using LAeq at 18:00
+laeq1h_19,The average noise in dB measured using LAeq at 19:00
+laeq1h_20,The average noise in dB measured using LAeq at 20:00
+laeq1h_21,The average noise in dB measured using LAeq at 21:00
+laeq1h_22,The average noise in dB measured using LAeq at 22:00
+laeq1h_23,The average noise in dB measured using LAeq at 23:00
+lday,The average noise in dB measured using LAeq during the day
+leve,The average noise in dB measured using LAeq during the evening
+lnight,The average noise in dB measured using LAeq during the night
+laeq16,The average noise in dB measured using LAeq for the period of 07:00-23:000
+lden,"The average noise in dB measured using LAeq for the entire 24 hour period (day, evening, night)"
+st_x,The decimal longitude of the receptor point
+st_y,The decimal latitude of the receptor point

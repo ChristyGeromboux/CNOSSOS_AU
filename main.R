@@ -6,11 +6,8 @@
 library(rmarkdown)
 library(bookdown)
 library(yaml)
-#library(sqldf)
 library(knitr)
-#library(xtable)  
-#library(tcltk)
-library(pander)
+#library(pander)
 library(tinytex)
 library(kableExtra)
 

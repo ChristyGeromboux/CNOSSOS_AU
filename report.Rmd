@@ -1,16 +1,7 @@
 ---
 title: A case study to determine the feasibility of using the CNOSSOS model for estimating traffic noise in Australia
-author:
-- name: "Christy Geromboux"
-  affilnum: 1
-  orcid: 0000-0002-2062-6129
-- name: "Ivan C. Hanigan"
-  affilnum: 1
-  email: ivan.hanigan@sydney.edu.au
-  orcid: 0000-0002-6360-6793
-affiliation:
-- affilnum: 1
-  affil: The University of Sydney, University Centre for Rural Health, School of Public Health
+author: "Christy Geromboux^1,2^, Ivan C. Hanigan^1,2,3^" 
+date: "^1^ University Centre for Rural Health, North Coast, School of Public Health, The University of Sydney, Sydney, Australia. ^2^ Centre for Air pollution, energy and health Research (CAR).  ^3^ Health Research Institute, University of Canberra, Canberra, Australia."
 
 output:
   pdf_document:

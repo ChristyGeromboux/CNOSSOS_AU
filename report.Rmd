@@ -2,7 +2,6 @@
 title: A case study to determine the feasibility of using the CNOSSOS model for estimating traffic noise in Australia
 author: "Christy Geromboux^1,2^, Ivan C. Hanigan^1,2,3^" 
 date: "^1^ University Centre for Rural Health, North Coast, School of Public Health, The University of Sydney, Sydney, Australia. ^2^ Centre for Air pollution, energy and health Research (CAR).  ^3^ Health Research Institute, University of Canberra, Canberra, Australia."
-
 output:
   pdf_document:
     extra_dependencies: ["float"]
@@ -10,6 +9,7 @@ output:
     keep_tex: no
     number_sections: yes
     template: tex_components/manuscript.latex
+    toc: yes
   html_document: null
   word_document: null
 fontsize: 11pt
@@ -31,7 +31,7 @@ We demonstrate the feasibility of using the CNOSSOS (Common NOise aSSessment Met
 # Introduction
 Traffic noise is detrimentally linked to several health outcomes (@Babisch2006, @VanKempen2012a, @Bjork2006, @Sorensen2012). Consequently, traffic noise modelling is increasingly important for understanding exposure and the impact on human health. 
 
-The aim of this report is to examine the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In this paper, these authors compare the results achieved using 6 different levels of detailed data, and include code for the least and most detailed models. Our report describes our attempts at getting the low resolution model to run using data for Bankstown, NSW.
+The aim of this report is to examine the feasibility of extending the CNOSSOS framework as implemented by @Morley2015 to an Australian context. In that paper the authors compare the results achieved using 6 different levels of detailed data, and include code for the least and most detailed models. Our report describes our attempts at getting the low resolution model to run using data for Bankstown, NSW.
 
 We used the code published with this paper, along with data for Bankstown, NSW to demonstrate the CNOSSOS model can feasibly be used in Australia. Included alongside this report, we have created a PostGIS server with access to the source data and scripts which run the analysis. Because some of the datasets are restricted, these are not published in the public domain. Instead they have been made available through the Centre for Air pollution, energy and health Research (CAR) Data Analysis Technology (DAT) platform (http://cardat.github.io/). Access to this can be requested through the CAR data team (car.data\@sydney.edu.au).
 
@@ -41,7 +41,7 @@ Additionally, there are several other papers that could feasibly be used to enha
 
 # Methods
 
-## Implementation of CNOSSOS code from Morley 2015
+## Implementation of CNOSSOS code from Morley et al. 2015
 In @Morley2015, a number of different models are described (A through F), which rely on differing levels of detail in the input data. The authors provided code for two of these models in their github repository, located at https://github.com/dwmorley/BioshareCNOSSOS_EU.
 
 As this project was a feasibility study we implemented the lowest resolution model (F), starting from the code in Morley's repository. We then deviated from the original scripts in the following ways:
@@ -229,6 +229,8 @@ There were no attempts made to validate the results from this experiment, except
 There was data provided to the Centre for Air pollution, energy and health Research (CAR) for noise readings in various suburbs of Sydney (Penthurst, Oatley, Mt Annan, Bradbury, Woy Woy, Wyoming, Glebe, Ashbury, St Ives, Kellyville, Castle Hill). These data could potentially be used for validating the results achieved in the CNOSSOS model in these regions.
 
 # Conclusion
+
+
 It is possible to use the CNOSSOS noise modelling framework in Australia, at least in major cities for which we have data.
 
 There is still significant work that would need to be done to:
@@ -239,7 +241,9 @@ There is still significant work that would need to be done to:
  * Test the performance of the model with large scale data
  
 # Acknowledgments
-The work by Ivan Hanigan and Christy Geromboux was funded by the Clean Air and Urban Landscapes (CAUL) hub of the Australian Government’s National and Environmental Science Programme (NESP). Financial support was also provided by the Centre for Air pollution, energy and health Research (CAR, http://www.car-cre.org.au) an Australian National Health and Medical Research Council (NHMRC) Centre of Research Excellence; and the Air Pollution, Traffic Exposures and Mortality and Morbidity in Older Australians (APTEMA) Study.
+The work by Ivan Hanigan and Christy Geromboux was funded by the Clean Air and Urban Landscapes (CAUL) hub of the Australian Government’s National and Environmental Science Programme (NESP).
+TODO Acknowledge support from Prof Jane Heyworth and Prof Geoff Morgan.
+Financial support was also provided by the Centre for Air pollution, energy and health Research (CAR, http://www.car-cre.org.au) an Australian National Health and Medical Research Council (NHMRC) Centre of Research Excellence; and the Air Pollution, Traffic Exposures and Mortality and Morbidity in Older Australians (APTEMA) Study.
 
 This research is undertaken with the assistance of resources from the Collaborative Environment for Scholarly Analysis and Synthesis (CoESRA; https://coesra.tern.org.au).
 

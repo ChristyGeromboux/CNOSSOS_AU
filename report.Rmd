@@ -2,8 +2,10 @@
 title: A case study to determine the feasibility of using the CNOSSOS model for estimating traffic noise in Australia
 author: "Christy Geromboux^1,2^, Ivan C. Hanigan^1,2,3^" 
 date: "^1^ University Centre for Rural Health, North Coast, School of Public Health, The University of Sydney, Sydney, Australia. ^2^ Centre for Air pollution, energy and health Research (CAR).  ^3^ Health Research Institute, University of Canberra, Canberra, Australia."
+
 output:
   pdf_document:
+    extra_dependencies: ["float"]
     fig_caption: yes
     keep_tex: no
     number_sections: yes
@@ -35,7 +37,7 @@ We used the code published with this paper, along with data for Bankstown, NSW t
 
 We highlight a few issues and potential ways in which results may be improved. Primarily there would need to be careful consideration of data inputs, including overcoming any differences in data standards across the states and territories. 
 
-Additionally, there are several other papers that could feasibly be used to enhance data inputs into the CNOSSOS code. For example, @Morley2016 describe ways in which traffic flows on minor roads can be modelled. This could improve the the CNOSSOS model, which assumes constant hourly rate across all minor roads.
+Additionally, there are several other papers that could feasibly be used to enhance data inputs into the CNOSSOS code. For example, @Morley2016 describe ways in which traffic flows on minor roads can be modelled. This could improve the CNOSSOS model, which assumes constant hourly rate across all minor roads.
 
 # Methods
 
@@ -49,24 +51,26 @@ As this project was a feasibility study we implemented the lowest resolution mod
    + ST_Line_Locate_Point updated to ST_LineLocatePoint
  * Reorganised SQL scripts so that they were modularised in a logical order catering to code dependencies 
  
+When we implemented this model we randomly generated 10 receptor points, and the model estimates the noise at each of the points.
+
 ## Software
 We implemented this on a PostGIS database (version 2.3 running PostgreSQL 9.6.15 on x86_64-pc-linux-gnu (Ubuntu 9.6.15-1.pgdg16.04+1), compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609, 64-bit) and did the analysis with SQL functions and scripts.
 
 ## Data sources 
-The data sources used for the low resolution code in this study are outlined in table 1 along with those used by Morley.
+The data sources used for the low resolution code in this study are outlined in Table 1 along with those used by Morley.
 
 +---------------------+-------------------------------+-------------------------------+
 | Input               | Bankstown Data Source         | Morley 2015 Data Source       |
 +=====================+===============================+===============================+
-| Landcover           | NSW LEP Land Zoning 2010      | CORINE 2006 v16 (~100 m       |
-|                     | @OEH2017                      | precision)                    | 
+| Landcover           | @OEH2017                      | CORINE 2006 v16 (~100 m       |
+|                     |                               | precision)                    | 
 |                     |                               | @EuropeanEnvironmentAgency2015b |
 +---------------------+-------------------------------+-------------------------------+
-| Building heights    | Geoscape GeoScape vector data | 1) 50 m grid generalised Landmap LiDAR |
-|                     | of building @PSMA2019         | 2) Constant value according to CORINE urban extent |
+| Building heights    | @PSMA2019                     | 1) 50 m grid generalised Landmap LiDAR |
+|                     |                               | 2) Constant value according to CORINE urban extent |
 +---------------------+-------------------------------+-------------------------------+
-| Road network        | StreetPro Navigation 2012     | Ordnance Survey, 2015. Meridian 2. |
-|                     | @PitneyBowes2012              | (accessed July 2015)          |
+| Road network        | @PitneyBowes2012              | Ordnance Survey, 2015. Meridian 2. |
+|                     |                               | (accessed July 2015)          |
 +---------------------+-------------------------------+-------------------------------+
 | Traffic flow        | As for @Morley2015            | ESCAPE/UK Department of Transport |
 |                     |                               | modelled traffic flow         |
@@ -75,20 +79,21 @@ The data sources used for the low resolution code in this study are outlined in 
 | Traffic composition | As for @Morley2015            | 10% heavy 90% light vehicles as according to CRTN |
 |                     |                               | @DepartmentofTransport2013    |
 +---------------------+-------------------------------+-------------------------------+
-| Traffic speed       | StreetPro Navigation 2012     | Local legal maximum limit     |
-|                     | @PitneyBowes2012              |                               |
-+---------------------+-------------------------------+-------------------------------+
-| Topography          | Flat plane                    | Flat plane                    |
+| Traffic speed       | @PitneyBowes2012              | Local legal maximum limit     |
 |                     |                               |                               |
 +---------------------+-------------------------------+-------------------------------+
-| Meteorological data | **wind data** test values made up | Annual average of 2003-2010  |
-|                     | **temperature data** downloaded| UK Met Office air temperature |
-|                     | from BoM                      |  and wind direction @MetOffice2015 |
+| Topography          | Flat plane (height assumed to | Flat plane (height assumed to |
+|                     | be 1m above ground level)     | be 1m above ground level)     |
++---------------------+-------------------------------+-------------------------------+
+| Meteorological data | **wind data** test values     | UK Met Office air temperature |
+|                     | Annual average of 2003-2010   | and wind direction            |  
+|                     | **temperature data**          | @MetOffice2015                |
+|                     | downloaded from BoM           |                               |
 +---------------------+-------------------------------+-------------------------------+
 
-## Data mapping
+## Data category matching
 
-The Topograpy data used in our feasibility study was mapped to the CORINE codes used by the CNOSSOS model as follows:
+The landcover data used in our feasibility study came from a NSW State Government source and the categories were matched to the CORINE codes used by Morley 2015 model as follows:
 
 +-----------------------------------+------------+-----------------------------------+
 | LEP Landzoning value              | CORINE code| CORINE description                |
@@ -154,69 +159,91 @@ The Topograpy data used in our feasibility study was mapped to the CORINE codes 
 |                                   |            |                                   |
 +-----------------------------------+------------+-----------------------------------+
 
-A full list of the CORINE Land Cover nomenclature conversion to Land Cover Classification system codes can be found here http://dd.eionet.europa.eu/vocabulary/landcover/clc 
-
 # Results
 
 ## Creation of PostGIS server and data sources
-As a deliverable we have set up a PostGIS (version 9.6.15) database with several schemas for the source data, and a public schema for the CNOSSOS tables and code. This database incorporates the Bankstown data, and along with the SQL scripts and readme in the scripts_and_analysis folder in this repository can be used to run the low resolution model. 
+We have set up a PostGIS database incorporating the Bankstown data, and along with the SQL scripts and readme in the open source software repository https://github.com/cardat/CNOSSOS_au_feasibility_report. In the scripts_and_analysis folder can be found the codes to run the low resolution model. 
 
 ## Data visualisation from QGIS
-The data from each of the layers can be visualised through QGIS. Below are some examples of data used in this report.
+The data from each of the layers can be visualised through QGIS (https://qgis.org/en/site/). See Fig 1-3 as examples.
 
-![Bankstown roads and ten randomly generated receptor points](figures_and_images/Bankstown_roads_with_random_receptor_points.PNG)
-
-
-![Bankstown roads and ten randomly generated receptor points](figures_and_images/subset_of_Bankstown_roads_building_footprints.PNG)
+![Bankstown roads and with some randomly generated receptor points](figures_and_tables/Bankstown_roads_with_random_receptor_points.PNG)
 
 
+![Bankstown roads and building footprints](figures_and_tables/subset_of_Bankstown_roads_building_footprints.PNG)
+
+![Receptor points and estimated traffic noise at 09:00am](figures_and_tables/receptor_noise_at_0900.PNG)
+
+## Noise estimates
+The analysis results in a table of noise measurements at each receptor point. The results are given it deciBels (dB) and measured using LAeq (A-weighted equivalent continuous sound level). The table includes:
+
+* Information about the receptor point (id, geometry, gps coordinates, optional description).
+* Hourly noise averages.
+* Noise averages for day, evening and night periods.
+* Noise averages for the 16 hour period 07:00-23:00.
+A full list of variables can be found in Table 3.
+
+```{r, tabresultsvariablescsv, echo = F}
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "", collapse = T, fig.width = 2)
+results <- read.csv('figures_and_tables/results_table_variables.csv', stringsAsFactors = F)
+names(results)<-c("Variable name","Description")
+knitr::kable(results, format='pandoc', caption = 'Results table variables')
+```
+
+Table 4 gives some example output data (truncated to fit to the page)
+
+```{r, tabexampleoutput, echo = F}
+results <- read.csv('data_derived/sample_output.csv', stringsAsFactors = F)
+sample_results<-results[,c(1,4,7,10,13,16,19)]
+knitr::kable(sample_results, format='pandoc', caption = 'Sample noise averages from analysis at 10 randomly generated receptor points')
+```
 
 # Discussion
 
 ## Limitations on data
 Data availability across Australia can be inconsistent due largely to the extremely diverse population densities. While this means it may not be possible to apply the model in many areas, it is likely that there would be sufficient data to operate the model in areas of interest (i.e. populated regions).
 
-Even where data is available, however, the lack of national standards means that the data may not be measured or represented consistently. These differences mean that mapping exercises may be necessary to achieve consistent outcomes from the model.
+Even where data is available, however, the lack of national standards means that the data may not be measured or represented consistently. These differences mean that matching exercises may be necessary to achieve consistent outcomes from the model.
 
 
 ## Issues and proposed enhancements 
 
-In implementing this model we encountered a number of issues with the orginal code. These included:
+In implementing this model we encountered a number of issues with the original code. These included:
 
  * Lack of sample data which made it difficult to ensure new data sources met the requirements of the model. It also made it difficult to debug issues that could have been related to the input data.
- * Documentation of code was provided, but very minimal and often difficult to understand without detailed knowledge of the accompanying paper.
+ * Documentation of code was provided, but it was very minimal and often difficult to understand without detailed knowledge of the accompanying paper.
  * There were a couple of deprecated functions which needed to be updated to get the code to run in the more recent version of PostGIS. 
 
-If this study were to be further extended, we would recommend a different IT framework for the project. 
+If this study were to be further extended, we would recommend a different coding framework for the project. 
+
  * Best practice is to have functions defined in individual files rather than in a single SQL file.
  * Using an R project to connect and run the scripts would enable more effective scripting, and easier debugging.
 
-This study has not tested for scale and only uses 10 receptor points which are randomly generated, expanding the results to larger areas could result in poor performance. 
+This study has not tested for scale and only uses 10 receptor points which are randomly generated. Expanding the results to larger areas could create performance issues. 
 
-Additionally the model results could be improved through better data inputs
+Using the high resolution model would also improve the accuracy of estimations as it accounts for variables such as elevation. Additionally the model results could be improved through more detailed data inputs.
 
 ## Validation of Results
-There were no attempts made to validate the results from this experiment, except to check that the results were in the expected range for traffic noise measurements. 
+There were no attempts made to validate the results from this experiment, except to check that the results were in the expected range for traffic noise measurements (see Table 4 for sample results). 
 
-There was data provided to the Centre for Air pollution, energy and health Research (CAR) for noise readings from the top of buildings in various suburbs of Sydney (Penthurst, Oatley, Mt Annan, Bradbury, Woy Woy, Wyoming, Glebe, Ashbury, St Ives, Kellyville, Castle Hill). These data however were not appropriate for validating the results achieved in the CNOSSOS model, as the protocols under which they were collected were different and they did not cover the same geographic regions.
-
-If this project were to be continued it would be important to find or collect data to validate the results from the model.
+There was data provided to the Centre for Air pollution, energy and health Research (CAR) for noise readings in various suburbs of Sydney (Penthurst, Oatley, Mt Annan, Bradbury, Woy Woy, Wyoming, Glebe, Ashbury, St Ives, Kellyville, Castle Hill). These data could potentially be used for validating the results achieved in the CNOSSOS model in these regions.
 
 # Conclusion
 It is possible to use the CNOSSOS noise modelling framework in Australia, at least in major cities for which we have data.
 
 There is still significant work that would need to be done to:
+
  * Validate the model against readings from a similar source
- * Add realist data for wind and receptors, rather than the randomly generated numbers and points used in this model (i.e. use real wind data, and generate receptor points 1 metre from the facade of buildings next to the nearest road)
+ * Add realistic data for wind and receptors, rather than the randomly generated numbers and points used in this model (i.e. use real wind data, and generate receptor points 1 metre from the facade of buildings next to the nearest road)
  * Map differences in data across states and territories to ensure consistent and comparable results
  * Test the performance of the model with large scale data
  
 # Acknowledgments
-The work by Ivan Hanigan and Christy Geromboux was funded by the Clean Air and Urban Landscapes (CAUL) hub of the Australian Government’s National and Environmental Science Programme (NESP).Financial support was also provided by the Centre for Air pollution, energy and health Research (CAR, http://www.car-cre.org.au) an Australian National Health and Medical Research Council (NHMRC) Centre of Research Excellence; and the Air Pollution, Traffic Exposures and Mortality and Morbidity in Older Australians (APTEMA) Study.
+The work by Ivan Hanigan and Christy Geromboux was funded by the Clean Air and Urban Landscapes (CAUL) hub of the Australian Government’s National and Environmental Science Programme (NESP). Financial support was also provided by the Centre for Air pollution, energy and health Research (CAR, http://www.car-cre.org.au) an Australian National Health and Medical Research Council (NHMRC) Centre of Research Excellence; and the Air Pollution, Traffic Exposures and Mortality and Morbidity in Older Australians (APTEMA) Study.
 
-This research is undertaken with the assistance of resources from the Collaborative Environment for Scholarly Analysis and Synthesis (CoESRA; https :// coesr a.tern.org.au).
+This research is undertaken with the assistance of resources from the Collaborative Environment for Scholarly Analysis and Synthesis (CoESRA; https://coesra.tern.org.au).
 
-With thanks to our colleages Bridget Beesley, Steve van der Hoorn and Jane Heyworth in University of Western Australia, who provided support and advice on getting the orginal code to run. 
+Thanks also to our colleagues Bridget Beesley, Steve van der Hoorn and Jane Heyworth at University of Western Australia, who provided support and advice on getting the original code to run. 
 
 # References
 
